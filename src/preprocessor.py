@@ -1,13 +1,22 @@
+import string
+from nltk.corpus import stopwords
+from nltk.corpus import wordnet
+from nltk import wordpunct_tokenize
+from nltk import WordNetLemmatizer
+from nltk import sent_tokenize
+from nltk import pos_tag
+from sklearn.base import BaseEstimator, TransformerMixin
 
-class MyPreprocessor(BaseEstimator, TransformerMixin):
+class GildPreprocessor(BaseEstimator, TransformerMixin):
 
     def __init__(self,
                  lower=True, strip=True):
         self.lower      = lower
         self.strip      = strip
-        self.stopwords  = set(sw.words('english'))
+        self.stopwords  = set(stopwords.words('english'))
         self.punct      = set(string.punctuation)
         self.lemmatizer = WordNetLemmatizer()
+        self.gildwords  = ["thanks", "gold", "gilded", "gild", "edit", "obligatory", "blew", "blown"]
 
     def fit(self, X, y=None):
         return self
@@ -28,6 +37,9 @@ class MyPreprocessor(BaseEstimator, TransformerMixin):
                 if token in self.stopwords:
                     continue
 
+                if token in self.gildwords:
+                    continue
+
                 if all(char in self.punct for char in token):
                     continue
 
@@ -36,20 +48,10 @@ class MyPreprocessor(BaseEstimator, TransformerMixin):
 
     def lemmatize(self, token, tag):
         tag = {
-            'N': wn.NOUN,
-            'V': wn.VERB,
-            'R': wn.ADV,
-            'J': wn.ADJ
-        }.get(tag[0], wn.NOUN)
+            'N': wordnet.NOUN,
+            'V': wordnet.VERB,
+            'R': wordnet.ADV,
+            'J': wordnet.ADJ
+        }.get(tag[0], wordnet.NOUN)
 
         return self.lemmatizer.lemmatize(token, tag)
-
-
-def identity(words):
-    return words
-
-model = Pipeline([
-    ('normalizer', MyPreprocessor()),
-    ('vectorizer', TfidfVectorizer(tokenizer=identity, preprocessor=None, lowercase=False)),
-    ('bayes', MultinomialNB()),
-])

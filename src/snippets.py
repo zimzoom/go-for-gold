@@ -1,3 +1,55 @@
+class WordCounterSubjectivity(BaseEstimator, TransformerMixin):
+
+    def __init__(self):
+        self.subj_toks = ["i", "me", "ive", "im", "my", "mine"]
+        return None
+        
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        word_counts = np.array([
+            len((self.simplify_text(doc)).split()) for doc in X
+        ])
+        subj_scores = np.array([
+        	self.subjectivity_score(doc, word_counts[i]) for i, doc in enumerate(X)
+        ])
+        word_counts = word_counts.reshape(-1, 1)
+        subj_scores = subj_scores.reshape(-1, 1)
+        return np.hstack((word_counts, subj_scores))
+    
+    def simplify_text(self, doc):
+        clean1 = re.sub(r'['+string.punctuation + '’—”'+']', "", doc.lower())
+        clean2 = re.sub(r'\W+', ' ', clean1)
+        return clean2
+
+    def subjectivity_score(self, doc, wc):
+        subj_counter = 0
+        for word in self.simplify_text(doc):
+            if word in self.subj_toks:
+                subj_counter += 1
+        return subj_counter/wc
+
+class WordCounter(BaseEstimator, TransformerMixin):
+
+    def __init__(self):
+        return None
+        
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        Z = np.array([
+            self.count_text(doc) for doc in X
+        ])
+        return Z.reshape(-1, 1)
+    
+    def count_text(self, doc):
+        clean1 = re.sub(r'['+string.punctuation + '’—”'+']', "", doc.lower())
+        clean2 = re.sub(r'\W+', ' ', clean1)
+        return len(clean2.split())
+
+
 class SubjectivityScore(BaseEstimator, TransformerMixin):
 
     def __init__(self):
@@ -12,7 +64,7 @@ class SubjectivityScore(BaseEstimator, TransformerMixin):
 
     def tokenize(self, docs):
         
-        
+
 
 def tokenize(text):
     stem = nltk.stem.SnowballStemmer('english')
