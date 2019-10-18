@@ -1,4 +1,6 @@
+import numpy as np
 import string
+import re
 from nltk.corpus import stopwords
 from nltk.corpus import wordnet
 from nltk import wordpunct_tokenize
