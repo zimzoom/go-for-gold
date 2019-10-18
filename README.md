@@ -10,6 +10,9 @@ User-generated content has the potential to achieve virality quickly, to the poi
 
 Consumers have become more savvy to the fabricated nature of many traditional forms of social proof, such as 'ambassador-style' brand advocates or "most popular" product sales. In the social media space in particular, one form of social proof retains an air of authenticity: the "early" response and/or endorsement. "Early" responses to content that has latent viral potential carry cultural weight that buys cultural capital, whereas later responses become more likely to invoke the suspicion of "bandwagonism". 
 
+![MeToo Hashtag](img/metoo.png)
+![Viral tweet](img/bunny.png)
+
 Early endorsement of potentially viral user-generated content represents a brand "spending" attention on something that does not have an immediate obvious payback in terms of exposure (thus gaining perceived authenticity).
 
 Objective
@@ -21,3 +24,5 @@ Therefore, this text classifier:
 * specifically, classifies those top-level comments from a sub-forum that focuses on user-generated content, and that has a mechanism for giving public endorsement to comments (Reddit gold)
 * assumes that responding is relatively cheap, while missed opportunities are more expensive. Therefore it aims to catch as many "endorsement-potentials" as possible (true positives), even if it means mistakenly flagging others (false positives).
 
+![AskReddit](img/askreddit.png)
+![Gold comment](img/gold_comment.png)
