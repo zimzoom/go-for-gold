@@ -31,7 +31,7 @@ def model_report(model, X_test, y_test):
 
     tn, fp, fn, tp = confusion_matrix(y_test, pred).ravel()
     print("True Pos: ", tp, "False Pos: ", fp)
-    print("TP/FP: ", (tp/fp))
+    print("FP to TP Ratio::  ", (fp/tp))
     print("True Neg: ", tn, "False Neg: ", fn)
 
 
